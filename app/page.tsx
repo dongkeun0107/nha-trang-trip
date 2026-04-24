@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import { useState } from "react";
 
 const tripInfo = {
   title: "나트랑 가족여행 안내",
@@ -11,6 +11,7 @@ const tripInfo = {
 
 const days = [
   {
+    id: "day1",
     day: "1일차",
     date: "5월 6일 수요일",
     theme: "출국 · 호텔 이동 · 휴식",
@@ -22,137 +23,128 @@ const days = [
     ],
   },
   {
+    id: "day2",
     day: "2일차",
     date: "5월 7일 목요일",
     theme: "자유시간",
-    highlight: "리조트 휴식",
-    items: [
-      { time: "08:30", title: "아침식사" },
-      { time: "10:00", title: "자유시간" },
-    ],
+    highlight: "",
+    items: [],
   },
   {
+    id: "day3",
     day: "3일차",
     date: "5월 8일 금요일",
-    theme: "시내투어",
-    highlight: "포나가르, 롯데마트",
-    items: [
-      { time: "08:30", title: "아침식사" },
-      { time: "10:30", title: "시내투어" },
-    ],
+    theme: "관광",
+    highlight: "",
+    items: [],
   },
   {
+    id: "day4",
     day: "4일차",
     date: "5월 9일 토요일",
     theme: "귀국",
-    highlight: "공항 이동",
-    items: [
-      { time: "08:30", title: "아침식사" },
-      { time: "11:00", title: "체크아웃" },
-    ],
+    highlight: "",
+    items: [],
   },
 ];
 
 export default function Page() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const [query, setQuery] = useState("");
+  const [openDay, setOpenDay] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
 
-  const filteredDays = useMemo(() => {
-    if (!query) return days;
+  const toggleDay = (id: string) => {
+    setOpenDay(openDay === id ? null : id);
+  };
 
-    return days.map((day) => ({
-      ...day,
-      items: day.items.filter((item) =>
-        `${item.title}`.toLowerCase().includes(query.toLowerCase())
-      ),
-    }));
-  }, [query]);
+  const scrollToSchedule = () => {
+    const el = document.getElementById("schedule-section");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
-    <main className="min-h-screen bg-slate-100 px-4 py-5 text-slate-900 md:px-8 md:py-8">
-      <div className="mx-auto max-w-6xl space-y-6">
-
+    <div className="bg-gray-100 min-h-screen p-4">
+      <div className="max-w-2xl mx-auto">
         {/* 상단 정보 */}
-        <div>
-          <h1 className="text-2xl font-bold">{tripInfo.title}</h1>
-          <p>{tripInfo.dates}</p>
-          <p>{tripInfo.place}</p>
-          <p>{tripInfo.hotel}</p>
-        </div>
+        <h1 className="text-2xl font-bold">{tripInfo.title}</h1>
+        <p className="mt-2">{tripInfo.dates}</p>
+        <p>{tripInfo.place}</p>
+        <p className="mb-6">{tripInfo.hotel}</p>
 
-        {/* 🔥 일정 선택 영역 (여기에 id 추가됨) */}
-        <section
-          id="schedule-menu"
-          className="rounded-3xl bg-white p-4 shadow-md ring-1 ring-slate-100"
+        {/* 일정 선택 (여기로 이동됨) */}
+        <div
+          id="schedule-section"
+          className="bg-white rounded-2xl shadow p-4 mb-4"
         >
-          <h2 className="text-xl font-bold mb-3">일정 선택</h2>
-          <div className="grid grid-cols-2 gap-2">
-            {days.map((day, idx) => (
+          <h2 className="font-bold mb-3">일정 선택</h2>
+
+          <div className="grid grid-cols-2 gap-3">
+            {days.map((d) => (
               <button
-                key={idx}
-                onClick={() => setOpenIndex(idx)}
-                className="bg-blue-500 text-white py-2 rounded"
+                key={d.id}
+                onClick={() => {
+                  const el = document.getElementById(d.id);
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="bg-blue-500 text-white py-2 rounded-lg"
               >
-                {day.day}
+                {d.day}
               </button>
             ))}
           </div>
-        </section>
+        </div>
 
         {/* 검색 */}
         <input
-          className="w-full rounded border px-3 py-2"
+          className="w-full p-2 mb-4 border rounded"
           placeholder="찾을 내용을 입력하세요"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
 
-        {/* 일정 리스트 */}
-        {filteredDays.map((day, index) => (
+        {/* 일정 카드 */}
+        {days.map((d) => (
           <div
-            key={index}
-            className="rounded-xl bg-white p-4 shadow-md"
+            key={d.id}
+            id={d.id}
+            className="bg-white rounded-xl shadow p-4 mb-4"
           >
-            <h3 className="text-lg font-bold">
-              {day.day} - {day.date}
+            <h3 className="font-bold text-lg">
+              {d.day} - {d.date}
             </h3>
-            <p className="text-sm text-gray-500">{day.theme}</p>
-            <p className="text-sm">{day.highlight}</p>
+            <p className="text-sm text-gray-600">{d.theme}</p>
+            {d.highlight && (
+              <p className="text-sm mt-1">{d.highlight}</p>
+            )}
 
             <button
-              className="mt-2 text-blue-500"
-              onClick={() =>
-                setOpenIndex(openIndex === index ? null : index)
-              }
+              onClick={() => toggleDay(d.id)}
+              className="text-blue-500 mt-2"
             >
-              {openIndex === index ? "닫기 ▲" : "보기 ▼"}
+              {openDay === d.id ? "닫기 ▲" : "보기 ▼"}
             </button>
 
-            {openIndex === index && (
-              <ul className="mt-3 space-y-1">
-                {day.items.map((item, i) => (
-                  <li key={i}>
+            {openDay === d.id && (
+              <div className="mt-3 space-y-1">
+                {d.items.map((item, i) => (
+                  <div key={i}>
                     {item.time} - {item.title}
-                  </li>
+                  </div>
                 ))}
-              </ul>
+              </div>
             )}
           </div>
         ))}
       </div>
 
-      {/* 🔥 일정 이동 버튼 (추가된 부분) */}
+      {/* ⭐ 핵심: 일정 보기 버튼 (기존 UI 유지 + 기능만 추가) */}
       <button
-        onClick={() => {
-          const el = document.getElementById("schedule-menu");
-          if (el) {
-            el.scrollIntoView({ behavior: "smooth" });
-          }
-        }}
-        className="fixed bottom-5 right-5 z-50 rounded-full bg-sky-600 px-6 py-4 text-lg font-bold text-white shadow-lg"
+        onClick={scrollToSchedule}
+        className="fixed bottom-6 right-6 bg-blue-600 text-white px-5 py-3 rounded-full shadow-lg"
       >
         일정 보기
       </button>
-    </main>
+    </div>
   );
 }

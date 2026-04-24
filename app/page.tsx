@@ -1,5 +1,37 @@
 "use client";
+
 import { useMemo, useState } from "react";
+
+type ScheduleItem = {
+  time: string;
+  title: string;
+  note: string;
+  icon: string;
+};
+
+type Day = {
+  day: string;
+  date: string;
+  theme: string;
+  highlight: string;
+  items: ScheduleItem[];
+};
+
+type PassportPerson = {
+  name: string;
+  type: string;
+  eng: string;
+  passport: string;
+  birth: string;
+  expire: string;
+  book: string;
+  departSeat: string;
+};
+
+type ToggleProps = {
+  isOpen: boolean;
+  onToggle: () => void;
+};
 
 const tripInfo = {
   title: "나트랑 가족여행 안내",
@@ -8,7 +40,7 @@ const tripInfo = {
   hotel: "나트랑 메리어트 리조트 & 스파, 혼트레 아일랜드",
 };
 
-const days = [
+const days: Day[] = [
   {
     day: "1일차",
     date: "5월 6일 수요일",
@@ -78,7 +110,7 @@ const quickNotes = [
   { icon: "⛴️", title: "섬 이동", text: "보트 또는 케이블카 이용" },
 ];
 
-const passportPeople = [
+const passportPeople: PassportPerson[] = [
   { name: "김종민", type: "성인", eng: "KIM JONGMIN", passport: "M86951293", birth: "1945-11-12", expire: "2027-11-27", book: "EFZE92", departSeat: "35G" },
   { name: "배원옥", type: "성인", eng: "BAE WONOAK", passport: "M92155839", birth: "1947-10-20", expire: "2027-11-27", book: "EFZE92", departSeat: "35E" },
   { name: "배선옥", type: "성인", eng: "BAE SUNGOK", passport: "M954L0214", birth: "1952-07-21", expire: "2035-11-19", book: "FF3TKK", departSeat: "35C" },
@@ -123,7 +155,7 @@ function QuickCards() {
   );
 }
 
-function TimelineItem({ item }) {
+function TimelineItem({ item }: { item: ScheduleItem }) {
   return (
     <div className="rounded-3xl bg-white p-4 shadow-sm ring-1 ring-slate-100 md:p-5">
       <div className="flex gap-4">
@@ -140,7 +172,7 @@ function TimelineItem({ item }) {
   );
 }
 
-function DayCard({ day, isOpen, onToggle }) {
+function DayCard({ day, isOpen, onToggle }: { day: Day } & ToggleProps) {
   return (
     <section className="rounded-3xl bg-slate-50 p-4 shadow-sm md:p-6">
       <button type="button" onClick={onToggle} className="w-full rounded-3xl bg-white p-5 text-left shadow-sm ring-1 ring-slate-100 active:scale-[0.99]">
@@ -165,8 +197,8 @@ function DayCard({ day, isOpen, onToggle }) {
   );
 }
 
-function CityTourSection({ isOpen, onToggle }) {
-  const tourItems = [
+function CityTourSection({ isOpen, onToggle }: ToggleProps) {
+  const tourItems: ScheduleItem[] = [
     { time: "10:30", title: "선착장 집결", note: "케이블카 선착장으로 이동 후 시내투어 준비", icon: "👨‍👩‍👧‍👦" },
     { time: "11:15 ~ 11:45", title: "포나가르 참탑", note: "선착장에서 약 15분 이동 · 관람 30분", icon: "🏛️" },
     { time: "12:00 ~ 12:30", title: "롱선사", note: "포나가르 참탑에서 약 10~15분 이동 · 관람 30분", icon: "🙏" },
@@ -203,7 +235,7 @@ function CityTourSection({ isOpen, onToggle }) {
   );
 }
 
-function RoomSection({ isOpen, onToggle }) {
+function RoomSection({ isOpen, onToggle }: ToggleProps) {
   const rooms = [
     { title: "1127호 · 4베드빌라 A동", groups: [
       { place: "1층", people: "김종민 / 배원옥", type: "원베드" },
@@ -258,7 +290,7 @@ function RoomSection({ isOpen, onToggle }) {
   );
 }
 
-function PassportSection({ isOpen, onToggle }) {
+function PassportSection({ isOpen, onToggle }: ToggleProps) {
   return (
     <section className="rounded-3xl bg-amber-50 p-5 shadow-sm md:p-7">
       <button type="button" onClick={onToggle} className="w-full text-left active:scale-[0.99]">
@@ -303,15 +335,13 @@ function PassportSection({ isOpen, onToggle }) {
   );
 }
 
-export default function NhaTrangFamilyTripPage() {
+export default function Page() {
   const [query, setQuery] = useState("");
   const [openSection, setOpenSection] = useState("day-0");
 
-  const toggleSection = (id) => {
+  const toggleSection = (id: string) => {
     setOpenSection((current) => (current === id ? "" : id));
 
-    // 모바일에서는 상단 버튼 영역이 화면을 가리지 않도록
-    // 선택한 섹션이 살짝 아래에서 시작되게 이동합니다.
     setTimeout(() => {
       const el = document.getElementById(id);
       if (el) {
@@ -324,10 +354,13 @@ export default function NhaTrangFamilyTripPage() {
   const filteredDays = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return days;
+
     return days
       .map((day) => ({
         ...day,
-        items: day.items.filter((item) => `${day.date} ${day.theme} ${item.time} ${item.title} ${item.note}`.toLowerCase().includes(q)),
+        items: day.items.filter((item) =>
+          `${day.date} ${day.theme} ${item.time} ${item.title} ${item.note}`.toLowerCase().includes(q)
+        ),
       }))
       .filter((day) => day.items.length > 0 || `${day.date} ${day.theme}`.toLowerCase().includes(q));
   }, [query]);

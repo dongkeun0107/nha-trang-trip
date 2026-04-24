@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 const tripInfo = {
   title: "나트랑 가족여행 안내",

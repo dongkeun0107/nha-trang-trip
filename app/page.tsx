@@ -68,7 +68,7 @@ const days: Day[] = [
       { time: "08:30", title: "아침식사", note: "SANDS 메인타워 · 아침뷔페 06:00~10:30", icon: "🍽️" },
       { time: "10:30 ~ 14:00", title: "자유시간", note: "리조트 휴식", icon: "🌴" },
       { time: "14:00", title: "사찰 & 빈펄하버", note: "Truc Lam 사찰, 빈펄하버", icon: "📷" },
-      { time: "15:00", title: "마사지", note: "예약 일정 확인", icon: "💆" },
+      { time: "15:00", title: "마사지 60분", note: "안나스파, 예약 일정 확인", icon: "💆" },
       { time: "18:00", title: "저녁식사", note: "SANDS 메인타워 · 저녁뷔페 18:00~21:00", icon: "🍽️" },
     ],
   },
@@ -93,7 +93,7 @@ const days: Day[] = [
     items: [
       { time: "08:30", title: "아침식사", note: "SANDS 메인타워 · 아침뷔페 06:00~10:30", icon: "🍽️" },
       { time: "11:00 ~ 15:00", title: "자유시간", note: "리조트 이용 및 휴식", icon: "🌴" },
-      { time: "14:00", title: "마사지", note: "예약 일정 확인", icon: "💆" },
+      { time: "13:30", title: "마사지 60분", note: "예약 일정 확인", icon: "💆" },
       { time: "16:00", title: "짐정리", note: "개인 물품 확인", icon: "🧳" },
       { time: "18:00", title: "저녁식사", note: "SANDS 메인타워", icon: "🍽️" },
       { time: "19:00", title: "픽업차량 탑승", note: "15인승 차량 2대 · 로컬 예약", icon: "🚌" },

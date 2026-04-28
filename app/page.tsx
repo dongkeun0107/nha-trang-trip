@@ -250,7 +250,7 @@ function RoomSection({ isOpen, onToggle }: ToggleProps) {
       title: "1128호 · 4베드빌라 B동",
       groups: [
         { place: "1층", people: "김수미 / 김태련 / 김하련", type: "원베드" },
-        { place: "1층", people: "오희영 / 임유나", type: "원베드" },
+        { place: "2층", people: "오희영 / 임유나", type: "원베드" },
         { place: "2층", people: "엄이슬", type: "원베드" },
       ],
     },

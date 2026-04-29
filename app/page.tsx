@@ -259,6 +259,7 @@ function RoomSection({ isOpen, onToggle }: ToggleProps) {
       groups: [
         { place: "방 배정", people: "박세훈 / 김수경", type: "원베드" },
         { place: "방 배정", people: "김수연", type: "원베드" },
+        { place: "방 배정", people: "박예슬", type: "트윈베드" }, // 🔥 추가된 부분
       ],
     },
   ];
@@ -271,7 +272,9 @@ function RoomSection({ isOpen, onToggle }: ToggleProps) {
             <h2 className="text-3xl font-black text-slate-900">🏠 방배정 전체</h2>
             <p className="mt-2 text-lg font-semibold text-slate-500">빌라/층별로 보기 쉽게 정리했습니다.</p>
           </div>
-          <div className="shrink-0 rounded-2xl bg-emerald-600 px-4 py-3 text-lg font-black text-white">{isOpen ? "닫기 ▲" : "보기 ▼"}</div>
+          <div className="shrink-0 rounded-2xl bg-emerald-600 px-4 py-3 text-lg font-black text-white">
+            {isOpen ? "닫기 ▲" : "보기 ▼"}
+          </div>
         </div>
       </button>
 
@@ -284,15 +287,26 @@ function RoomSection({ isOpen, onToggle }: ToggleProps) {
                 <div className="mt-4 space-y-3">
                   {room.groups.map((group, idx) => (
                     <div key={idx} className="rounded-2xl bg-white p-4 shadow-sm">
-                      <p className="text-base font-black text-sky-700">{group.place} · {group.type}</p>
-                      <p className="mt-1 text-xl font-black text-slate-900">{group.people}</p>
+                      <p className="text-base font-black text-sky-700">
+                        {group.place} · {group.type}
+                      </p>
+                      <p className="mt-1 text-xl font-black text-slate-900">
+                        {group.people}
+                      </p>
                     </div>
                   ))}
                 </div>
               </div>
             ))}
           </div>
-          <button type="button" onClick={onToggle} className="mt-4 w-full rounded-2xl bg-slate-700 px-4 py-4 text-xl font-black text-white shadow-sm active:scale-95">방배정 닫기</button>
+
+          <button
+            type="button"
+            onClick={onToggle}
+            className="mt-4 w-full rounded-2xl bg-slate-700 px-4 py-4 text-xl font-black text-white shadow-sm active:scale-95"
+          >
+            방배정 닫기
+          </button>
         </div>
       )}
     </section>

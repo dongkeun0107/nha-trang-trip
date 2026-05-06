@@ -238,7 +238,7 @@ function CityTourSection({ isOpen, onToggle }: ToggleProps) {
 function RoomSection({ isOpen, onToggle }: ToggleProps) {
   const rooms = [
     {
-      title: "1127호 · 4베드빌라 A동",
+      title: "1126호 · 4베드빌라 A동",
       groups: [
         { place: "1층", people: "김종민 / 배원옥", type: "원베드" },
         { place: "1층", people: "배선옥", type: "트윈베드" },
@@ -247,7 +247,7 @@ function RoomSection({ isOpen, onToggle }: ToggleProps) {
       ],
     },
     {
-      title: "1128호 · 4베드빌라 B동",
+      title: "1127호 · 4베드빌라 B동",
       groups: [
         { place: "1층", people: "김수미 / 김태련 / 김하련", type: "원베드" },
         { place: "2층", people: "오희영 / 임유나", type: "원베드" },
@@ -255,7 +255,7 @@ function RoomSection({ isOpen, onToggle }: ToggleProps) {
       ],
     },
     {
-      title: "미정 · 3베드빌라",
+      title: "1105호 · 3베드빌라",
       groups: [
         { place: "방 배정", people: "박세훈 / 김수경", type: "원베드" },
         { place: "방 배정", people: "김수연", type: "원베드" },
